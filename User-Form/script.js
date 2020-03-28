@@ -27,7 +27,6 @@ const checkLength = (input, min, max) => {
   }
 } 
 
-
 const checkValidEmail = (email) => {
 
   const res = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -47,6 +46,15 @@ const checkRequiredFields = (inputArray) => {
     }
   })
 }
+
+const checkPasswordMatch = (input1 , input2) => {
+  if(input1.value.trim() !== input2.value.trim()) {
+    showError(input2, 'Passwords do not match');
+  } else {
+    showSuccess(input2);
+  }
+
+}
 form.addEventListener('submit', (e) => {
   e.preventDefault();
 
@@ -54,4 +62,5 @@ form.addEventListener('submit', (e) => {
   checkLength(username, 3, 15);
   checkLength(password, 6, 25);
   checkValidEmail(email);
+  checkPasswordMatch(password, confirmPassword);
 })
