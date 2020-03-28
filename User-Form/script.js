@@ -3,7 +3,7 @@ const form = document.getElementById('form');
 const username = document.getElementById('username');
 const email = document.getElementById('email');
 const password = document.getElementById('password');
-const password2 = document.getElementById('password2');
+const confirmPassword = document.getElementById('confirm-password');
 
 const showError = (input, message) => {
   const formcontrol = input.parentElement;
@@ -17,10 +17,25 @@ const showSuccess = (input) => {
   formcontrol.className = 'form-control success';
 }
 
+const checkLength = (input, min, max) => {
+  if(input.value.length < min) {
+    showError(input, `${input.id} must be at least ${min} characters`);
+  } else if(input.value.length > max) {
+    showError(input, `${input.id} must be less than ${max} characters`)
+  } else {
+    showSuccess(input)
+  }
+} 
 
-const isValidEmail = (email) => {
+
+const checkValidEmail = (email) => {
+
   const res = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return res.test(String(email).toLowerCase());
+  if(!res.test(String(email.value.trim()).toLowerCase)) {
+    showError(email, 'Email is not valid');
+  } else {
+    showSuccess(email)
+  }
 }
 
 const checkRequiredFields = (inputArray) => {
@@ -35,5 +50,8 @@ const checkRequiredFields = (inputArray) => {
 form.addEventListener('submit', (e) => {
   e.preventDefault();
 
-  checkRequiredFields([username, email, password, password2]);
+  checkRequiredFields([username, email, password, confirmPassword]);
+  checkLength(username, 3, 15);
+  checkLength(password, 6, 25);
+  checkValidEmail(email);
 })
