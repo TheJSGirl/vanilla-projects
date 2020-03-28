@@ -12,14 +12,47 @@ const showError = (input, message) => {
   small.innerText = message;
 }
 
+const showSuccess = (input) => {
+  const formcontrol = input.parentElement;
+  formcontrol.className = 'form-control success';
+}
+
+
+const isValidEmail = (email) => {
+  const res = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return res.test(String(email).toLowerCase());
+}
 form.addEventListener('submit', (e) => {
   e.preventDefault();
 
-  //check if value is empty
+  //check if username value is empty
   if(username.value === '') {
-    showError(username, 'Username is required')
+    showError(username, 'Username is required');
   }
   else {
-    showSuccess(username)
+    showSuccess(username);
+  }
+
+  if(email.value === '') {
+    showError(email, 'Email is required');
+  } else if(!isValidEmail(email.value)) {
+    showError(email, 'Email is not valid');
+  }
+  else {
+    showSuccess(email);
+  }
+
+  if(password.value === '') {
+    showError(password, 'Password is required');
+  }
+  else {
+    showSuccess(password);
+  }
+
+  if(password2.value === '') {
+    showError(password2, 'Confirm Password is required');
+  }
+  else {
+    showSuccess(password2);
   }
 })
