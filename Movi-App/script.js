@@ -12,6 +12,13 @@ let ticketPrice = +moviSelected.value;
 // update total count and total price
 const updateCountAndTicket = () => {
   const selectedSeats = document.querySelectorAll('.row .seat.selected');
+
+  // loop over selectedSeats and check the index with existing seats
+  const seatIndex = [...selectedSeats].map(seat => [...seats].indexOf(seat));
+
+  // set seatIndex in the localstorage
+  localStorage.setItem('selectedSeats', JSON.stringify(seatIndex));
+
   count.innerHTML = selectedSeats.length;
   total.innerHTML = ticketPrice * selectedSeats.length;
 }
@@ -28,7 +35,8 @@ container.addEventListener('click', (e) => {
   if(e.target.classList.contains('seat') && !e.target.classList.contains('occupied')) {
     const seat = e.target;
     // seat.className = 'seat occupied';
-    e.target.classList.toggle('selected');
+    console.log(e.target.classList.toggle('selected'))
+
     updateCountAndTicket();
   }
 })
